@@ -62,8 +62,7 @@ function optionChanged(id) {
    //Samples Section
    ts = samples.filter(d=> {return (d.id == id)});
    tsamp = ts.map(e=>{return e});
-   //get top 10
-
+ 
 
    otu_ids = tsamp.map(e=>{return e.otu_ids});
    sample_values = tsamp.map(e=>{return e.sample_values});
@@ -72,6 +71,23 @@ function optionChanged(id) {
    console.log(sample_values);
    console.log(otu_labels);
 
+  //get top 10
+  var trace = {
+    x: sample_values[0].slice(0,9),
+    y: otu_ids[0].slice(0,9),
+    type: "bar",
+    orientation:"h"
+  };
+  
+  data = [trace]
+
+  var layout = {
+    title: "OTU Sample Values",
+    xaxis: { title: "Sample Values" },
+    yaxis: { title: "OTU ID's"}
+  };
+
+  Plotly.react("bar", data, layout);
 };
     
 optionChanged("940")
