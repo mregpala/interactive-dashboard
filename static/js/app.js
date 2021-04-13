@@ -11,6 +11,7 @@ var ts = [];
 var tsamp = [];
 var id = "";
 var sample_values = [];
+var sample_values_int = [];
 var otu_ids = []; 
 var otu_labels = [];
 
@@ -66,6 +67,11 @@ function optionChanged(id) {
 
    otu_ids = tsamp.map(e=>{return e.otu_ids});
    sample_values = tsamp.map(e=>{return e.sample_values});
+   
+   var samp = sample_values[0];
+   console.log(`samp ${samp}`)
+   sample_values_int = samp.map(e=>parseInt(e))
+
    otu_labels = tsamp.map(e=>{return e.otu_labels});   
    console.log(otu_ids);
    console.log(sample_values);
@@ -73,18 +79,27 @@ function optionChanged(id) {
 
   //get top 10
   var trace = {
-    x: sample_values[0].slice(0,9),
-    y: otu_ids[0].slice(0,9),
+    x: sample_values_int.slice(0,10).reverse(),
+    y: otu_ids[0].slice(0,10).reverse(),
     type: "bar",
-    orientation:"h"
+    orientation:"h",
+    transform:[
+        { type: "sort",
+          target:"x",
+          order: "descending"
+       }
+       ]
   };
   
   data = [trace]
 
   var layout = {
     title: "OTU Sample Values",
-    xaxis: { title: "Sample Values" },
-    yaxis: { title: "OTU ID's"}
+    xaxis: { title: "Sample Values",
+             type:"linear" },
+    yaxis: { title: "OTU ID's",
+             type:"category",
+             }
   };
 
   Plotly.react("bar", data, layout);
