@@ -29,6 +29,8 @@ d3.json("../../samples.json").then((data) => {
   console.log(names[0])
 
 function optionChanged(id) {
+   
+   //Filter main dataset for Id selection
    td = demographics.filter(d => {return(d.id == id)});
    
    tdemog = td.map(e => {return e});
@@ -70,7 +72,7 @@ function optionChanged(id) {
    
    var samp = sample_values[0];
    console.log(`samp ${samp}`)
-   sample_values_int = samp.map(e=>parseInt(e))
+   sample_values_int = samp.map(e=>{return parseInt(e)})
 
    otu_labels = tsamp.map(e=>{return e.otu_labels});   
    console.log(otu_ids);
@@ -81,6 +83,7 @@ function optionChanged(id) {
   var trace = {
     x: sample_values_int.slice(0,10).reverse(),
     y: otu_ids[0].slice(0,10).reverse(),
+    text: otu_labels[0].slice(0,10).reverse(),
     type: "bar",
     orientation:"h",
     transform:[
@@ -103,6 +106,32 @@ function optionChanged(id) {
   };
 
   Plotly.react("bar", data, layout);
+
+  //Build Scatter Plot
+  var desired_maximum_marker_size = 65;
+  var trace = {
+      y: sample_values_int.slice(0,10).reverse(),
+      x: otu_ids[0].slice(0,10).reverse(),
+      text: otu_labels[0].slice(0,10).reverse(),
+      type: "scatter",
+      mode: "markers",
+      marker: {
+        size: sample_values_int.slice(0,10).reverse(),
+        sizeref: 2.0 * Math.max(...sample_values_int.slice(0,10).reverse()) / (desired_maximum_marker_size**2),
+        sizemode: 'area',
+        colorscale: "Reds",
+        color: sample_values_int.slice(0,10).reverse()
+      }
+    };
+    
+    data = [trace];
+  
+    var layout = {
+      xaxis: { title: "OTU ID" }
+    };
+  
+    Plotly.react("bubble", data,layout);
+
 };
     
 optionChanged("940")
