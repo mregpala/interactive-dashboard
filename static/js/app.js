@@ -15,7 +15,7 @@ var sample_values_int = [];
 var otu_ids = []; 
 var otu_labels = [];
 
-d3.json("../../samples.json").then((data) => {
+d3.json("samples.json").then((data) => {
     names = data.names.map(d => d);
     demographics = data.metadata;
     samples = data.samples;

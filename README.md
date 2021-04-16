@@ -67,3 +67,4 @@ The indicator gauge is for the bonus. I had some issues with the formatting, but
 
 
 Feel free to test out the visualization.
+[Dashboard Site](https://mregpala.github.io/interactive-dashboard/)
