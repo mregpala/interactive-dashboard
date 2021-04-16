@@ -127,7 +127,8 @@ function optionChanged(id) {
     data = [trace];
   
     var layout = {
-      xaxis: { title: "OTU ID" }
+      xaxis: { title: "OTU ID" },
+      yaxis: { title: "Sample Values"}
     };
   
     Plotly.react("bubble", data,layout);
