@@ -30,5 +30,40 @@ The following is a bar chart with the top 10 OTU's by sample count in descending
 ![Bar Chart](images/barchart.PNG)
 
 #### Scatter Chart
-The following scatter/bubble chart consists of OTU Id in X axis and Sample Values in Y axis. Marker (bubble) size correlates to actual Sample Value.  A formula was used to ensure the bubble size are visually appealing
+The following scatter/bubble chart consists of OTU Id in X axis and Sample Values in Y axis. Marker (bubble) size correlates to actual Sample Value.  A formula is used to ensure the bubble size are visually appealing, as well as pre defined column scheme "Greens".
+![Scatter Plot](images/bubble_chart.PNG)
 
+**Chart Code:**
+
+    var desired_maximum_marker_size = 80;
+    var trace = {
+        y: sample_values_int.slice(0,10).reverse(),
+        x: otu_ids[0].slice(0,10).reverse(),
+        text: otu_labels[0].slice(0,10).reverse(),
+        type: "scatter",
+        mode: "markers",
+        marker: {
+            size: sample_values_int.slice(0,10).reverse(),
+            sizeref: 2.0 * Math.max(...sample_values_int.slice(0,10).reverse()) / (desired_maximum_marker_size**2),
+            sizemode: 'area',
+            colorscale: "Greens",
+            color: sample_values_int.slice(0,10).reverse()
+        }
+        };
+    
+    data = [trace];
+
+    var layout = {
+    xaxis: { title: "OTU ID" },
+    yaxis: { title: "Sample Values"}
+    };
+
+    Plotly.react("bubble", data,layout);
+
+
+#### Indicator Gauge
+The indicator gauge is for the bonus. I had some issues with the formatting, but I was able to turn it into a red, yellow and green gauge, with the chart progressing from red to green as wash frequency increases. The wash frquency text shows on the chart as well.
+![Indicator Gauge](images/indicator.PNG)
+
+
+Feel free to test out the visualization.
