@@ -108,7 +108,7 @@ function optionChanged(id) {
   Plotly.react("bar", data, layout);
 
   //Build Scatter Plot
-  var desired_maximum_marker_size = 65;
+  var desired_maximum_marker_size = 80;
   var trace = {
       y: sample_values_int.slice(0,10).reverse(),
       x: otu_ids[0].slice(0,10).reverse(),
@@ -119,7 +119,7 @@ function optionChanged(id) {
         size: sample_values_int.slice(0,10).reverse(),
         sizeref: 2.0 * Math.max(...sample_values_int.slice(0,10).reverse()) / (desired_maximum_marker_size**2),
         sizemode: 'area',
-        colorscale: "Reds",
+        colorscale: "Greens",
         color: sample_values_int.slice(0,10).reverse()
       }
     };
@@ -132,6 +132,44 @@ function optionChanged(id) {
   
     Plotly.react("bubble", data,layout);
 
+    //Build Gauge Chart
+    
+
+    var data = [
+      {
+        domain: { x: [0, 1], y: [0, 1] },
+        value: parseInt(wfreq),
+        title: { text: "Wash Freq" },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        // delta: { reference: 380 },
+        gauge: {
+          axis: { range: [null, 9],
+                  nicks: 9,
+                  tickmode: "auto"},
+          steps: [
+            { range: [0, .99], color: "#cc0000" },
+            { range: [1, 1.99], color: "#ff1a1a" },
+            { range: [2, 2.99], color: "#ff9999" },
+            { range: [3, 3.99], color: "#ffff33" },
+            { range: [4, 4.99], color: "#ffff99" },
+            { range: [5, 5.99], color: "#ffffb3" },
+            { range: [6, 6.99], color: "#e6ffcc" },
+            { range: [7, 7.99], color: "#73e600" },
+            { range: [8, 9], color: "#408000" }           
+          ],
+          threshold: {
+            line: { color: "red", width: 4 },
+            thickness: 0.75,
+            value: 10
+          },
+          bar: {color:"black"}
+        }
+      }
+    ];
+    
+    // var layout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+    Plotly.react('gauge', data, layout);
 };
     
 optionChanged("940")
